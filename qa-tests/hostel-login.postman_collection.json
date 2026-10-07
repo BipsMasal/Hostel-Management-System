@@ -1,0 +1,542 @@
+{
+  "info": {
+    "_postman_id": "hostel-login-qa-001",
+    "name": "Hostel Login QA Suite",
+    "description": "Automated QA tests for login.php and loginprocess.php",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "regularUser", "value": "qa_regular_user" },
+    { "key": "regularPass", "value": "QaPass123!" },
+    { "key": "adminUser", "value": "qa_admin_user" },
+    { "key": "adminPass", "value": "QaAdmin123!" }
+  ],
+  "item": [
+    {
+      "name": "1. Page Load and UI",
+      "item": [
+        {
+          "name": "UI-01 Page loads",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/login.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('UI-01: Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('UI-01: Title contains Login', () => pm.expect(pm.response.text()).to.match(/<title>Login<\\/title>/i));",
+                  "pm.test('UI-01: Form posts to loginprocess.php', () => pm.expect(pm.response.text()).to.include('action=\"loginprocess.php\"'));",
+                  "pm.test('UI-01: Username field present', () => pm.expect(pm.response.text()).to.include('name=\"username\"'));",
+                  "pm.test('UI-01: Password field present', () => pm.expect(pm.response.text()).to.include('name=\"password\"'));",
+                  "pm.test('UI-01: Login button present', () => pm.expect(pm.response.text()).to.match(/Login<\\/button>/));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "UI-02 Stylesheet linked",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/login.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('UI-02: style.css linked', () => pm.expect(pm.response.text()).to.include('href=\"style.css\"'));",
+                  "pm.test('UI-02: login-container class present', () => pm.expect(pm.response.text()).to.include('login-container'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "UI-03 Register link",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/login.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('UI-03: Register link points to register.php', () => pm.expect(pm.response.text()).to.include('href=\"register.php\"'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "UI-04 Back To Home link",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/login.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('UI-04: Back To Home link present', () => pm.expect(pm.response.text()).to.match(/Back To Home/i));",
+                  "pm.test('UI-04: Links to index.php', () => pm.expect(pm.response.text()).to.include('href=\"index.php\"'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "UI-05 Password field masked",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/login.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('UI-05: Password input type is password', () => pm.expect(pm.response.text()).to.match(/type=\"password\"[^>]*name=\"password\"|name=\"password\"[^>]*type=\"password\"/));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. Failed Login",
+      "item": [
+        {
+          "name": "NEG-01 Wrong password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "username", "value": "{{regularUser}}" },
+                { "key": "password", "value": "WrongPassword999" },
+                { "key": "submit", "value": "submit" }
+              ]
+            },
+            "url": "{{baseUrl}}/loginprocess.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('NEG-01: Redirects on wrong password', () => pm.response.to.have.status(302));",
+                  "const loc = pm.response.headers.get('Location') || '';",
+                  "pm.test('NEG-01: Redirect to login with error', () => {",
+                  "    pm.expect(loc).to.include('login.php');",
+                  "    pm.expect(loc).to.include('error=User');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "NEG-02 Wrong username",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "username", "value": "nonexistent_user_xyz" },
+                { "key": "password", "value": "anything" },
+                { "key": "submit", "value": "submit" }
+              ]
+            },
+            "url": "{{baseUrl}}/loginprocess.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('NEG-02: Redirects on wrong username', () => pm.response.to.have.status(302));",
+                  "pm.test('NEG-02: User not found error in URL', () => pm.expect(pm.response.headers.get('Location')).to.include('error=User'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "NEG-04 Error message visible on page",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/login.php?error=User+not+found"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('NEG-04: Page loads after error redirect', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.text();",
+                  "pm.test('NEG-04: Error message displayed to user', () => {",
+                  "    const showsError = /User not found|error|alert|Enter Username|Enter Password/i.test(body);",
+                  "    pm.expect(showsError, 'Expected visible error message on login page').to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3. Server Validation",
+      "item": [
+        {
+          "name": "SRV-01 Empty username POST",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "username", "value": "" },
+                { "key": "password", "value": "somepass" },
+                { "key": "submit", "value": "submit" }
+              ]
+            },
+            "url": "{{baseUrl}}/loginprocess.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('SRV-01: Redirect on empty username', () => pm.response.to.have.status(302));",
+                  "pm.test('SRV-01: Enter Username error', () => pm.expect(pm.response.headers.get('Location')).to.include('error=Enter+Username'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "SRV-02 Empty password POST",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "username", "value": "{{regularUser}}" },
+                { "key": "password", "value": "" },
+                { "key": "submit", "value": "submit" }
+              ]
+            },
+            "url": "{{baseUrl}}/loginprocess.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('SRV-02: Redirect on empty password', () => pm.response.to.have.status(302));",
+                  "pm.test('SRV-02: Enter Password error', () => pm.expect(pm.response.headers.get('Location')).to.include('error=Enter+Password'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "SRV-03 GET loginprocess.php",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/loginprocess.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('SRV-03: GET does not crash server', () => pm.expect(pm.response.code).to.be.oneOf([200, 204, 302]));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4. Authentication and Session",
+      "item": [
+        {
+          "name": "AUTH-01 Valid regular user login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "username", "value": "{{regularUser}}" },
+                { "key": "password", "value": "{{regularPass}}" },
+                { "key": "submit", "value": "submit" }
+              ]
+            },
+            "url": "{{baseUrl}}/loginprocess.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('AUTH-01: Successful login redirects', () => pm.response.to.have.status(302));",
+                  "pm.test('AUTH-01: Redirects to index.php', () => pm.expect(pm.response.headers.get('Location')).to.include('index.php'));",
+                  "pm.test('AUTH-01: Session cookie set', () => pm.expect(pm.cookies.has('PHPSESSID')).to.be.true);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "AUTH-03 Already logged in visits login.php",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/login.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('AUTH-03: Logged-in user redirected from login page', () => pm.response.to.have.status(302));",
+                  "pm.test('AUTH-03: Redirect target is index.php', () => pm.expect(pm.response.headers.get('Location')).to.include('index.php'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "AUTH-04 Navbar shows logout after login",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/index.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('AUTH-04: Home page loads', () => pm.response.to.have.status(200));",
+                  "pm.test('AUTH-04: Logout link visible', () => pm.expect(pm.response.text()).to.match(/Logout/i));",
+                  "pm.test('AUTH-04: Username shown in navbar', () => pm.expect(pm.response.text()).to.include(pm.environment.get('regularUser')));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "SES-01 Logout clears session",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/logout.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('SES-01: Logout redirects', () => pm.response.to.have.status(302));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "SES-02 Login page accessible after logout",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/login.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('SES-02: Login page loads after logout (not redirected)', () => pm.response.to.have.status(200));",
+                  "pm.test('SES-02: Login form visible', () => pm.expect(pm.response.text()).to.include('login-form'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "SES-02b Login again after logout",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "username", "value": "{{regularUser}}" },
+                { "key": "password", "value": "{{regularPass}}" },
+                { "key": "submit", "value": "submit" }
+              ]
+            },
+            "url": "{{baseUrl}}/loginprocess.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('SES-02b: Re-login succeeds', () => pm.response.to.have.status(302));",
+                  "pm.test('SES-02b: Redirects to index.php', () => pm.expect(pm.response.headers.get('Location')).to.include('index.php'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "SES-03 Myaccount blocked when logged out",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/logout.php"
+          },
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Prep: logout', () => pm.response.to.have.status(302));"], "type": "text/javascript" } }]
+        },
+        {
+          "name": "SES-03b Direct myaccount access logged out",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/myaccount.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('SES-03: Unauthorized access redirects', () => pm.response.to.have.status(302));",
+                  "pm.test('SES-03: Redirects to login.php', () => pm.expect(pm.response.headers.get('Location')).to.include('login.php'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5. Admin Login",
+      "item": [
+        {
+          "name": "AUTH-02 Valid admin login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "username", "value": "{{adminUser}}" },
+                { "key": "password", "value": "{{adminPass}}" },
+                { "key": "submit", "value": "submit" }
+              ]
+            },
+            "url": "{{baseUrl}}/loginprocess.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('AUTH-02: Admin login redirects', () => pm.response.to.have.status(302));",
+                  "const loc = pm.response.headers.get('Location') || '';",
+                  "pm.test('AUTH-02: Redirects to addroom.php', () => pm.expect(loc).to.include('addroom.php'));",
+                  "pm.sendRequest({ url: pm.collectionVariables.get('baseUrl') + '/' + loc.replace(/^\\/?/, ''), method: 'GET' }, (err, res) => {",
+                  "    pm.test('AUTH-02: Admin landing page reachable', () => {",
+                  "        pm.expect(res.code, 'addroom.php should return 200').to.equal(200);",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "6. Security Observations",
+      "item": [
+        {
+          "name": "SEC-01 SQL injection attempt",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "username", "value": "' OR '1'='1" },
+                { "key": "password", "value": "' OR '1'='1" },
+                { "key": "submit", "value": "submit" }
+              ]
+            },
+            "url": "{{baseUrl}}/loginprocess.php"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const loc = pm.response.headers.get('Location') || '';",
+                  "pm.test('SEC-01: SQL injection should be rejected', () => {",
+                  "    const rejected = loc.includes('error=User') || loc.includes('login.php?error');",
+                  "    pm.expect(rejected, 'SQL injection must not authenticate').to.be.true;",
+                  "});",
+                  "pm.test('SEC-01: Must not redirect to index.php on injection', () => {",
+                  "    pm.expect(loc.includes('index.php') && !loc.includes('error')).to.be.false;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

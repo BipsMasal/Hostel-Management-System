@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Hostel Login QA Suite" tests="21" time="0.337">
+  <testsuite name="1. Page Load and UI / UI-01 Page loads" id="90e69b16-4ed5-46e3-bfd1-ff07e48caece" timestamp="2026-06-30T09:16:46.411Z" tests="6" failures="0" errors="0" time="0.055">
+    <testcase name="UI-01: Status 200" time="0.055" classname="1PageLoadAndUiUi01PageLoads"/>
+    <testcase name="UI-01: Title contains Login" time="0.055" classname="1PageLoadAndUiUi01PageLoads"/>
+    <testcase name="UI-01: Form posts to loginprocess.php" time="0.055" classname="1PageLoadAndUiUi01PageLoads"/>
+    <testcase name="UI-01: Username field present" time="0.055" classname="1PageLoadAndUiUi01PageLoads"/>
+    <testcase name="UI-01: Password field present" time="0.055" classname="1PageLoadAndUiUi01PageLoads"/>
+    <testcase name="UI-01: Login button present" time="0.055" classname="1PageLoadAndUiUi01PageLoads"/>
+  </testsuite>
+  <testsuite name="1. Page Load and UI / UI-02 Stylesheet linked" id="8d5c1ebf-d306-4411-b740-8c70246b6289" timestamp="2026-06-30T09:16:46.411Z" tests="2" failures="0" errors="0" time="0.008">
+    <testcase name="UI-02: style.css linked" time="0.008" classname="1PageLoadAndUiUi02StylesheetLinked"/>
+    <testcase name="UI-02: login-container class present" time="0.008" classname="1PageLoadAndUiUi02StylesheetLinked"/>
+  </testsuite>
+  <testsuite name="1. Page Load and UI / UI-03 Register link" id="3c393cd5-bc7f-4441-9018-a23a6bbf16a8" timestamp="2026-06-30T09:16:46.411Z" tests="1" failures="0" errors="0" time="0.007">
+    <testcase name="UI-03: Register link points to register.php" time="0.007" classname="1PageLoadAndUiUi03RegisterLink"/>
+  </testsuite>
+  <testsuite name="1. Page Load and UI / UI-04 Back To Home link" id="3d800e3d-d3b7-4187-976e-b56f292e09fd" timestamp="2026-06-30T09:16:46.411Z" tests="2" failures="0" errors="0" time="0.005">
+    <testcase name="UI-04: Back To Home link present" time="0.005" classname="1PageLoadAndUiUi04BackToHomeLink"/>
+    <testcase name="UI-04: Links to index.php" time="0.005" classname="1PageLoadAndUiUi04BackToHomeLink"/>
+  </testsuite>
+  <testsuite name="1. Page Load and UI / UI-05 Password field masked" id="9508bc47-fe1c-4880-b962-d92588023eb7" timestamp="2026-06-30T09:16:46.411Z" tests="1" failures="0" errors="0" time="0.006">
+    <testcase name="UI-05: Password input type is password" time="0.006" classname="1PageLoadAndUiUi05PasswordFieldMasked"/>
+  </testsuite>
+  <testsuite name="2. Failed Login / NEG-01 Wrong password" id="b06df48d-49c2-47f5-88cb-4f05fcba0597" timestamp="2026-06-30T09:16:46.411Z" tests="2" failures="0" errors="0" time="0.010">
+    <testcase name="NEG-01: Redirects on wrong password" time="0.010" classname="2FailedLoginNeg01WrongPassword"/>
+    <testcase name="NEG-01: Redirect to login with error" time="0.010" classname="2FailedLoginNeg01WrongPassword"/>
+  </testsuite>
+  <testsuite name="2. Failed Login / NEG-02 Wrong username" id="3695ef50-2c82-48f4-817b-eb9f32b331b5" timestamp="2026-06-30T09:16:46.411Z" tests="2" failures="0" errors="0" time="0.019">
+    <testcase name="NEG-02: Redirects on wrong username" time="0.019" classname="2FailedLoginNeg02WrongUsername"/>
+    <testcase name="NEG-02: User not found error in URL" time="0.019" classname="2FailedLoginNeg02WrongUsername"/>
+  </testsuite>
+  <testsuite name="2. Failed Login / NEG-04 Error message visible on page" id="c5a568af-5712-4c0e-853b-85e4c6d2dd0f" timestamp="2026-06-30T09:16:46.411Z" tests="2" failures="1" errors="0" time="0.008">
+    <testcase name="NEG-04: Page loads after error redirect" time="0.008" classname="2FailedLoginNeg04ErrorMessageVisibleOnPage"/>
+    <testcase name="NEG-04: Error message displayed to user" time="0.008" classname="2FailedLoginNeg04ErrorMessageVisibleOnPage">
+      <failure type="AssertionFailure" message="Expected visible error message on login page: expected false to be true">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: hostel-login-qa-001.]]>
+        <![CDATA[Collection name: Hostel Login QA Suite.]]>
+        <![CDATA[Request name: 2. Failed Login / NEG-04 Error message visible on page.]]>
+        <![CDATA[Test description: NEG-04: Error message displayed to user.]]>
+        <![CDATA[Error message: Expected visible error message on login page: expected false to be true.]]>
+        <![CDATA[Stacktrace: AssertionError: Expected visible error message on login page: expected false to be true
+   at Object.eval sandbox-script.js:2:8).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="3. Server Validation / SRV-01 Empty username POST" id="e4923439-5d63-4234-a8fb-504c0b5440be" timestamp="2026-06-30T09:16:46.411Z" tests="2" failures="0" errors="0" time="0.025">
+    <testcase name="SRV-01: Redirect on empty username" time="0.025" classname="3ServerValidationSrv01EmptyUsernamePost"/>
+    <testcase name="SRV-01: Enter Username error" time="0.025" classname="3ServerValidationSrv01EmptyUsernamePost"/>
+  </testsuite>
+  <testsuite name="3. Server Validation / SRV-02 Empty password POST" id="95ce827a-afe3-4652-b6ea-a407ae6ea1c2" timestamp="2026-06-30T09:16:46.411Z" tests="2" failures="0" errors="0" time="0.015">
+    <testcase name="SRV-02: Redirect on empty password" time="0.015" classname="3ServerValidationSrv02EmptyPasswordPost"/>
+    <testcase name="SRV-02: Enter Password error" time="0.015" classname="3ServerValidationSrv02EmptyPasswordPost"/>
+  </testsuite>
+  <testsuite name="3. Server Validation / SRV-03 GET loginprocess.php" id="81a6c176-b5fe-4384-86b7-9f8b9ebfa2c6" timestamp="2026-06-30T09:16:46.411Z" tests="1" failures="0" errors="0" time="0.016">
+    <testcase name="SRV-03: GET does not crash server" time="0.016" classname="3ServerValidationSrv03GetLoginprocessPhp"/>
+  </testsuite>
+  <testsuite name="4. Authentication and Session / AUTH-01 Valid regular user login" id="b2710030-112b-48eb-a50f-cf487b46ae45" timestamp="2026-06-30T09:16:46.411Z" tests="3" failures="0" errors="0" time="0.036">
+    <testcase name="AUTH-01: Successful login redirects" time="0.036" classname="4AuthenticationAndSessionAuth01ValidRegularUserLogin"/>
+    <testcase name="AUTH-01: Redirects to index.php" time="0.036" classname="4AuthenticationAndSessionAuth01ValidRegularUserLogin"/>
+    <testcase name="AUTH-01: Session cookie set" time="0.036" classname="4AuthenticationAndSessionAuth01ValidRegularUserLogin"/>
+  </testsuite>
+  <testsuite name="4. Authentication and Session / AUTH-03 Already logged in visits login.php" id="ddd68a8c-c24b-4f82-9b8a-fec0fbb2725b" timestamp="2026-06-30T09:16:46.411Z" tests="2" failures="0" errors="0" time="0.008">
+    <testcase name="AUTH-03: Logged-in user redirected from login page" time="0.008" classname="4AuthenticationAndSessionAuth03AlreadyLoggedInVisitsLoginPhp"/>
+    <testcase name="AUTH-03: Redirect target is index.php" time="0.008" classname="4AuthenticationAndSessionAuth03AlreadyLoggedInVisitsLoginPhp"/>
+  </testsuite>
+  <testsuite name="4. Authentication and Session / AUTH-04 Navbar shows logout after login" id="c041c590-f349-4cd0-9992-c58c7888bbad" timestamp="2026-06-30T09:16:46.411Z" tests="3" failures="0" errors="0" time="0.007">
+    <testcase name="AUTH-04: Home page loads" time="0.007" classname="4AuthenticationAndSessionAuth04NavbarShowsLogoutAfterLogin"/>
+    <testcase name="AUTH-04: Logout link visible" time="0.007" classname="4AuthenticationAndSessionAuth04NavbarShowsLogoutAfterLogin"/>
+    <testcase name="AUTH-04: Username shown in navbar" time="0.007" classname="4AuthenticationAndSessionAuth04NavbarShowsLogoutAfterLogin"/>
+  </testsuite>
+  <testsuite name="4. Authentication and Session / SES-01 Logout clears session" id="2b6f9063-c9e6-4123-8c34-85ff55e5cdcf" timestamp="2026-06-30T09:16:46.411Z" tests="1" failures="0" errors="0" time="0.004">
+    <testcase name="SES-01: Logout redirects" time="0.004" classname="4AuthenticationAndSessionSes01LogoutClearsSession"/>
+  </testsuite>
+  <testsuite name="4. Authentication and Session / SES-02 Login page accessible after logout" id="b4952ae9-3b25-4965-825f-d6248b29b542" timestamp="2026-06-30T09:16:46.411Z" tests="2" failures="0" errors="0" time="0.011">
+    <testcase name="SES-02: Login page loads after logout (not redirected)" time="0.011" classname="4AuthenticationAndSessionSes02LoginPageAccessibleAfterLogout"/>
+    <testcase name="SES-02: Login form visible" time="0.011" classname="4AuthenticationAndSessionSes02LoginPageAccessibleAfterLogout"/>
+  </testsuite>
+  <testsuite name="4. Authentication and Session / SES-02b Login again after logout" id="e6355f48-c66e-4246-a161-2d54dc62288e" timestamp="2026-06-30T09:16:46.411Z" tests="2" failures="0" errors="0" time="0.037">
+    <testcase name="SES-02b: Re-login succeeds" time="0.037" classname="4AuthenticationAndSessionSes02BLoginAgainAfterLogout"/>
+    <testcase name="SES-02b: Redirects to index.php" time="0.037" classname="4AuthenticationAndSessionSes02BLoginAgainAfterLogout"/>
+  </testsuite>
+  <testsuite name="4. Authentication and Session / SES-03 Myaccount blocked when logged out" id="6f812ddf-e848-4e4f-a8ee-5e5bfcaec296" timestamp="2026-06-30T09:16:46.411Z" tests="1" failures="0" errors="0" time="0.011">
+    <testcase name="Prep: logout" time="0.011" classname="4AuthenticationAndSessionSes03MyaccountBlockedWhenLoggedOut"/>
+  </testsuite>
+  <testsuite name="4. Authentication and Session / SES-03b Direct myaccount access logged out" id="8b11ec46-4ae6-44ef-b442-22949b4f8f06" timestamp="2026-06-30T09:16:46.411Z" tests="2" failures="0" errors="0" time="0.005">
+    <testcase name="SES-03: Unauthorized access redirects" time="0.005" classname="4AuthenticationAndSessionSes03BDirectMyaccountAccessLoggedOut"/>
+    <testcase name="SES-03: Redirects to login.php" time="0.005" classname="4AuthenticationAndSessionSes03BDirectMyaccountAccessLoggedOut"/>
+  </testsuite>
+  <testsuite name="5. Admin Login / AUTH-02 Valid admin login" id="8d054059-13a6-4269-88ad-b74ff760f3e2" timestamp="2026-06-30T09:16:46.411Z" tests="3" failures="1" errors="0" time="0.007">
+    <testcase name="AUTH-02: Admin login redirects" time="0.007" classname="5AdminLoginAuth02ValidAdminLogin"/>
+    <testcase name="AUTH-02: Redirects to addroom.php" time="0.007" classname="5AdminLoginAuth02ValidAdminLogin"/>
+    <testcase name="AUTH-02: Admin landing page reachable" time="0.007" classname="5AdminLoginAuth02ValidAdminLogin">
+      <failure type="AssertionFailure" message="addroom.php should return 200: expected 404 to equal 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: hostel-login-qa-001.]]>
+        <![CDATA[Collection name: Hostel Login QA Suite.]]>
+        <![CDATA[Request name: 5. Admin Login / AUTH-02 Valid admin login.]]>
+        <![CDATA[Test description: AUTH-02: Admin landing page reachable.]]>
+        <![CDATA[Error message: addroom.php should return 200: expected 404 to equal 200.]]>
+        <![CDATA[Stacktrace: AssertionError: addroom.php should return 200: expected 404 to equal 200
+   at Object.eval sandbox-script.js:3:20).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="6. Security Observations / SEC-01 SQL injection attempt" id="6ad7b9f9-435d-4548-ab77-5fd4f46213a8" timestamp="2026-06-30T09:16:46.411Z" tests="2" failures="0" errors="0" time="0.037">
+    <testcase name="SEC-01: SQL injection should be rejected" time="0.037" classname="6SecurityObservationsSec01SqlInjectionAttempt"/>
+    <testcase name="SEC-01: Must not redirect to index.php on injection" time="0.037" classname="6SecurityObservationsSec01SqlInjectionAttempt"/>
+  </testsuite>
+</testsuites>
